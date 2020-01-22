@@ -23,7 +23,13 @@ server.get("/api/accounts/:id", (req, res) => {
   db("accounts")
     .where("id", req.params.id)
     .then(account => {
-      return res.json(account);
+      if (account.length) {
+        return res.json(account);
+      } else {
+        return res.status(404).json({
+          error: "invalid account id"
+        });
+      }
     })
     .catch(err => {
       console.log(err);
